@@ -70,27 +70,27 @@ spec:
     app: graphite
   type: NodePort
   ports:
-  - name: GUI
+  - name: gui
     protocol: TCP
     port: 7070
     targetPort: 80
     nodePort: 32070
-  - name: carbon receiver - plaintext
+  - name: carbon-receiver-plaintext
     protocol: TCP
     port: 2003
     targetPort: 2003
     nodePort: 32003
-  - name: carbon receiver - pickle
+  - name: carbon-receiver-pickle
     protocol: TCP
     port: 2004
     targetPort: 2004
     nodePort: 32004
-  - name: carbon aggregator - plaintext
+  - name: carbon-aggregator-plaintext
     protocol: TCP
     port: 2023
     targetPort: 2023
     nodePort: 32023
-  - name: carbon aggregator - pickle
+  - name: carbon-aggregator-pickle
     protocol: TCP
     port: 2024
     targetPort: 2024
@@ -100,7 +100,7 @@ spec:
     port: 8125
     targetPort: 8125
     nodePort: 32125
-  - name: statsd admin
+  - name: statsd-admin
     protocol: TCP
     port: 8126
     targetPort: 8126
