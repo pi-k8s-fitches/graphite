@@ -13,10 +13,13 @@ else
 BASE=alpine:3.8
 endif
 
-.PHONY: build start stop create update delete create-dev update-dev delete-dev
+.PHONY: build shell start stop push create update delete create-dev update-dev delete-dev
 
 build:
 	docker build . --build-arg BASE=$(BASE) -t $(ACCOUNT)/$(IMAGE):$(TAG)
+
+shell:
+	docker run -it $(VOLUMES) $(ACCOUNT)/$(IMAGE):$(TAG) sh
 
 start:
 	docker run --name $(IMAGE)-$(VERSION) $(VARIABLES) $(VOLUMES) -d --rm -p 127.0.0.1:$(PORT):80 -p 127.0.0.1:2003:2003 -h $(IMAGE) $(ACCOUNT)/$(IMAGE):$(TAG)
