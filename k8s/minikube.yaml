@@ -74,7 +74,7 @@ spec:
     protocol: TCP
     port: 7070
     targetPort: 80
-    nodePort: 32070
+    nodePort: 30070
   - name: carbon-receiver-plaintext
     protocol: TCP
     port: 2003
