@@ -29,12 +29,12 @@ spec:
         - containerPort: 8125
         - containerPort: 8126
         readinessProbe:
-          initialDelaySeconds: 5
+          initialDelaySeconds: 20
           httpGet:
             path: /
             port: 80
         livenessProbe:
-          initialDelaySeconds: 2
+          initialDelaySeconds: 20
           periodSeconds: 5
           httpGet:
             path: /
