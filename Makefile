@@ -33,17 +33,15 @@ push: build
 create:
 	kubectl --context=pi-k8s create -f k8s/pi-k8s.yaml
 
-update:
-	kubectl --context=pi-k8s replace -f k8s/pi-k8s.yaml
-
 delete:
 	kubectl --context=pi-k8s delete -f k8s/pi-k8s.yaml
+
+update: detete create
 
 create-dev:
 	kubectl --context=minikube create -f k8s/minikube.yaml
 
-update-dev:
-	kubectl --context=minikube replace -f k8s/minikube.yaml
-
 delete-dev:
 	kubectl --context=minikube delete -f k8s/minikube.yaml
+
+update-dev: delete-dev create-dev
