@@ -84,19 +84,24 @@ spec:
     protocol: TCP
     port: 2004
     targetPort: 2004
+    nodePort: 32004
   - name: carbon aggregator - plaintext
     protocol: TCP
     port: 2023
     targetPort: 2023
+    nodePort: 32023
   - name: carbon aggregator - pickle
     protocol: TCP
     port: 2024
     targetPort: 2024
+    nodePort: 32024
   - name: statsd
     protocol: UDP
     port: 8125
     targetPort: 8125
+    nodePort: 32125
   - name: statsd admin
     protocol: TCP
     port: 8126
     targetPort: 8126
+    nodePort: 32126
