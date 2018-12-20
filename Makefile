@@ -36,7 +36,7 @@ create:
 delete:
 	kubectl --context=pi-k8s delete -f k8s/pi-k8s.yaml
 
-update: detete create
+update: delete create
 
 create-dev:
 	kubectl --context=minikube create -f k8s/minikube.yaml
