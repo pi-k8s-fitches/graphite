@@ -10,6 +10,9 @@ RUN true \
       collectd-nginx \
       findutils \
       librrd \
+      python2 \
+      make \
+      g++ \
       memcached \
       nginx \
       nodejs \
