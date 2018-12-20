@@ -1,6 +1,5 @@
 ARG BASE
 FROM ${BASE} as base
-LABEL maintainer="Denys Zhdanov <denis.zhdanov@gmail.com>"
 
 RUN true \
  && apk add --no-cache \
@@ -28,7 +27,6 @@ RUN true \
       /var/log/graphite
 
 FROM base as build
-LABEL maintainer="Denys Zhdanov <denis.zhdanov@gmail.com>"
 
 RUN true \
  && apk add --update \
@@ -89,9 +87,12 @@ ARG statsd_repo=https://github.com/etsy/statsd.git
 RUN git init /opt/statsd \
  && git -C /opt/statsd remote add origin "${statsd_repo}" \
  && git -C /opt/statsd fetch origin "${statsd_version}" \
- && git -C /opt/statsd checkout "${statsd_version}" \
- && cd /opt/statsd \
- && npm install
+ && git -C /opt/statsd checkout "${statsd_version}"
+
+# install statsd GUI (because npm works weird on ARM)
+RUN cd /opt/statsd && npm install; exit 0
+RUN cd /opt/statsd && npm install
+
 
 # fixing RRD support (see https://github.com/graphite-project/docker-graphite-statsd/issues/63)
 RUN sed -i \
@@ -112,7 +113,6 @@ RUN mkdir -p /var/log/graphite/ \
 COPY conf/opt/statsd/config/ /opt/defaultconf/statsd/config/
 
 FROM base as production
-LABEL maintainer="Denys Zhdanov <denis.zhdanov@gmail.com>"
 
 ENV STATSD_INTERFACE udp
 
