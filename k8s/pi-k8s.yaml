@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphite
+  namespace: fitches
+  labels:
+    app: graphite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graphite
+  template:
+    metadata:
+      labels:
+        app: graphite
+    spec:
+      nodeSelector:
+        storage: enabled
+      containers:
+      - name: graphite
+        image: docker.io/gaf3/pi-k8s-fitches-graphite:0.1-armv7l
+        ports:
+        - containerPort: 80
+        - containerPort: 2003
+        - containerPort: 2004
+        - containerPort: 2023
+        - containerPort: 2024
+        - containerPort: 8125
+        - containerPort: 8126
+        readinessProbe:
+          initialDelaySeconds: 5
+          httpGet:
+            path: /
+            port: 80
+        livenessProbe:
+          initialDelaySeconds: 2
+          periodSeconds: 5
+          httpGet:
+            path: /
+            port: 80
+        volumeMounts:
+        - mountPath: /opt/graphite/storage
+          name: storage
+        - mountPath: /var/log
+          name: log
+        - mountPath: /var/lib/redis
+          name: redis
+      volumes:
+      - name: storage
+        hostPath:
+          path: /var/lib/pi-k8s/graphite/storage
+          type: DirectoryOrCreate
+      - name: log
+        hostPath:
+          path: /var/lib/pi-k8s/graphite/log
+          type: DirectoryOrCreate
+      - name: redis
+        hostPath:
+          path: /var/lib/pi-k8s/graphite/redis
+          type: DirectoryOrCreate
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: graphite
+  namespace: fitches
+spec:
+  selector:
+    app: graphite
+  ports:
+  - protocol: TCP
+    port: 7070
+    targetPort: 80
+    nodePort: 32070
+  - protocol: TCP
+    port: 2003
+    targetPort: 2003
+    nodePort: 32003
+  - protocol: TCP
+    port: 2004
+    targetPort: 2004
+  - protocol: TCP
+    port: 2023
+    targetPort: 2023
+  - protocol: TCP
+    port: 2024
+    targetPort: 2024
+  - protocol: UDP
+    port: 8125
+    targetPort: 8125
+  - protocol: TCP
+    port: 8126
+    targetPort: 8126
